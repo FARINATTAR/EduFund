@@ -1,9 +1,13 @@
-import React from 'react'
+import { Routes, Route } from 'react-router-dom';
+import Donate from './pages/Donate';
+import ChildrenList from './pages/ChildrenList';
 
-export default function App() {
+function App() {
   return (
-    <div>
-      
-    </div>
-  )
+    <Routes>
+      <Route path="/children" element={<ChildrenList />} />
+      <Route path="/donate" element={<Donate />} />
+    </Routes>
+  );
 }
+export default App;
