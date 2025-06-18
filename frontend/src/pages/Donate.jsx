@@ -69,8 +69,9 @@ import axios from 'axios';
 const Donate = () => {
   const [searchParams] = useSearchParams();
   const initialChildId = searchParams.get('child_id') || '';
+  const initialSponsorId = searchParams.get('sponsor_id') || '';
 
-  const [sponsorId, setSponsorId] = useState('');
+  const [sponsorId, setSponsorId] = useState(initialSponsorId);
   const [childId, setChildId] = useState(initialChildId);
   const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');

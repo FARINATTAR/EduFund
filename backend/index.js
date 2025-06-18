@@ -4,6 +4,9 @@ import db from './db/db.js';
 import cors from 'cors';
 import childrenRoutes from './routes/childrenRoutes.js';
 import donationRoutes from './routes/donationRoutes.js';
+import sponsorRoutes from './routes/sponsorRoutes.js';
+
+
 
 dotenv.config();
 const app = express();
@@ -17,6 +20,7 @@ app.use(cors({
 app.use(express.json());
 app.use('/api/children', childrenRoutes);
 app.use('/api/donate', donationRoutes);
+app.use('/api/sponsors', sponsorRoutes);
 
 
 app.get('/', (req, res) => {
