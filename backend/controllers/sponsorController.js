@@ -1,4 +1,8 @@
 import db from '../db/db.js';
+import { Parser } from 'json2csv'; 
+
+
+
 
 export const registerSponsor = async (req, res) => {
   const { name, email } = req.body;
@@ -64,5 +68,60 @@ export const getSponsorDonations = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch donation history' });
+  }
+};
+
+export const findSponsorByEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const [result] = await db.execute(
+      'SELECT * FROM sponsors WHERE email = ?',
+      [email]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'No sponsor found with this email' });
+    }
+
+    res.status(200).json({ sponsor: result[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+export const downloadSponsorCSV = async (req, res) => {
+  const sponsorId = req.params.id;
+
+  try {
+    const [donations] = await db.execute(
+      `SELECT d.donation_date, c.name AS child_name, d.amount
+       FROM donations d
+       JOIN children c ON d.child_id = c.child_id
+       WHERE d.sponsor_id = ?
+       ORDER BY d.donation_date DESC`,
+      [sponsorId]
+    );
+
+    if (donations.length === 0) {
+      return res.status(404).json({ error: 'No donations found' });
+    }
+
+    const formatted = donations.map(d => ({
+      donation_date: new Date(d.donation_date).toLocaleDateString(),
+      child_name: d.child_name,
+      amount: d.amount
+    }));
+
+    const csv = new Parser({ fields: ['donation_date', 'child_name', 'amount'] }).parse(formatted);
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment(`sponsor_${sponsorId}_donations.csv`);
+    res.send(csv);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'CSV export failed' });
   }
 };
