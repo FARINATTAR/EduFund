@@ -221,7 +221,7 @@ const SponsorChildLanding = () => {
               <input
                 type="email"
                 placeholder="Email"
-                className="px-4 py-2 rounded-lg border-2 border-white text-gray-900 w-40"
+                className="px-4 py-2 rounded-lg border-2 border-white text-black placeholder-gray-600 w-40"
               />
               <select className="px-4 py-2 rounded-lg border-2 border-white text-gray-900">
                 <option>₹1500/month</option>
