@@ -17,6 +17,10 @@ const SponsorChildLanding = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
     const [children, setChildren] = useState([]);
 
     useEffect(() => {
