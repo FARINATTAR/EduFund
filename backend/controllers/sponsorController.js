@@ -2,8 +2,6 @@ import db from '../db/db.js';
 import { Parser } from 'json2csv'; 
 
 
-
-
 export const registerSponsor = async (req, res) => {
   const { name, email } = req.body;
 
@@ -123,5 +121,25 @@ export const downloadSponsorCSV = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'CSV export failed' });
+  }
+};
+
+export const getSponsorById = async (req, res) => {
+  const sponsorId = req.params.id;
+
+  try {
+    const [rows] = await db.execute(
+      'SELECT * FROM sponsors WHERE sponsor_id = ?',
+      [sponsorId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Sponsor not found' });
+    }
+
+    res.status(200).json(rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
   }
 };

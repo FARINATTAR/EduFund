@@ -8,6 +8,7 @@ import SponsorLogin from './pages/SponsorLogin';
 import SponsorDonations from './pages/SponsorDonations';
 import Home from './pages/Home';
 import RoleSelection from "./pages/RoleSelectionPage";
+import SponsorChildLanding from './pages/SponsorLanding';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
       <Route path="/sponsor/login" element={<SponsorLogin />} />
       <Route path="/sponsor/:id/donations" element={<SponsorDonations />} />
       <Route path="/choose-role" element={<RoleSelection />} />
-
+      <Route path="/sponsor-a-child" element={<SponsorChildLanding />} />
+      {/* Add more routes as needed */}
     </Routes>
   );
 }
