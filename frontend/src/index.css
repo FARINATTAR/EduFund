@@ -1,1 +1,93 @@
 @import "tailwindcss";
+
+:root {
+    --neon-green: #39FF14;
+    --neon-pink: #FF10F0;
+  }
+  
+  .bg-neon-green {
+    background-color: var(--neon-green);
+  }
+  
+  .text-neon-green {
+    color: var(--neon-green);
+  }
+  
+  .bg-neon-pink {
+    background-color: var(--neon-pink);
+  }
+  
+  .text-neon-pink {
+    color: var(--neon-pink);
+  }
+
+  .font-dela-gothic {
+    font-family: 'Dela Gothic One', sans-serif;  
+    font-weight: 100;
+    font-style: normal
+  }
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-style: normal
+  }
+  .neon-text:hover {
+    text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 15px #3b82f6, 0 0 20px #2563eb;
+    filter: brightness(1);
+  }
+
+  .font-dela-gothic1 {
+    font-family: 'Dela Gothic One', sans-serif;  
+    font-weight: 20px;
+    font-style: normal
+  }
+
+  .unlock-regular {
+    font-family: "Unlock", serif;
+    font-weight: 400;
+    transform: scaleY(1.2);
+    font-style: normal;
+    letter-spacing: 5px;
+  }
+
+.footer {
+    width: 100%;
+    background-color: black;
+    color: gray;
+    padding: 20px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.animate-gradient {
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+}
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.pacifico-regular {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.quicksand-regular {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.satisfy-regular {
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
