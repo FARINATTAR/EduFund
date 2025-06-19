@@ -5,7 +5,7 @@ import cors from 'cors';
 import childrenRoutes from './routes/childrenRoutes.js';
 import donationRoutes from './routes/donationRoutes.js';
 import sponsorRoutes from './routes/sponsorRoutes.js';
-
+import authRoutes from './routes/auth.js';
 
 
 dotenv.config();
@@ -18,9 +18,12 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // ✅ optional: for form data
+
 app.use('/api/children', childrenRoutes);
 app.use('/api/donate', donationRoutes);
 app.use('/api/sponsors', sponsorRoutes);
+app.use('/auth', authRoutes);
 
 
 app.get('/', (req, res) => {

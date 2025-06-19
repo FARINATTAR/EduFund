@@ -7,7 +7,17 @@ CREATE TABLE sponsors (
     sponsor_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    total_donated DECIMAL(10,2) DEFAULT 0.00
+    total_donated DECIMAL(10,2) DEFAULT 0.00,
+    password VARCHAR(255),
+    phone VARCHAR(15),
+    gender VARCHAR(10),
+    dateOfBirth DATE,
+    street VARCHAR(100),
+    area VARCHAR(100),
+    pincode VARCHAR(10),
+    role VARCHAR(20),
+    isVerified BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Children Table
@@ -39,4 +49,29 @@ CREATE TABLE expenses (
     description TEXT,
     expense_date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (child_id) REFERENCES children(child_id) ON DELETE CASCADE
+);
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    phone VARCHAR(15),
+    gender VARCHAR(10),
+    dateOfBirth DATE,
+    street VARCHAR(100),
+    area VARCHAR(100),
+    pincode VARCHAR(10),
+    role VARCHAR(20),
+    isVerified BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- OTP table
+CREATE TABLE otps (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100),
+    otp VARCHAR(10),
+    expires_at DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -24,7 +24,7 @@ const SponsorDashboard = () => {
         setTotalDonated(total);
         
         // Calculate unique students impacted
-        const uniqueStudents = new Set(res.data.donations.map(d => d.child_name)).size;
+        const uniqueStudents = new Set(res.data.donations.map(d => d.child_id)).size;
         setStudentsImpacted(uniqueStudents);
         
         setIsLoading(false);

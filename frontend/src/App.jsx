@@ -3,12 +3,13 @@ import Donate from './pages/Donate';
 import ChildrenList from './pages/ChildrenList';
 import RegisterSponsor from './pages/RegisterSponsor';
 import SponsorDashboard from './pages/SponsorDashboard';
+import Signup from './pages/SponsorSignup.jsx';
 import SponsorLogin from './pages/SponsorLogin';
 import SponsorDonations from './pages/SponsorDonations';
 import Home from './pages/Home';
 import RoleSelection from "./pages/RoleSelectionPage";
 import SponsorChildLanding from './pages/SponsorLanding';
-
+import VerifyOtp from './pages/VerifyOtp.jsx';
 function App() {
   return (
     <Routes>
@@ -22,6 +23,8 @@ function App() {
       <Route path="/sponsor/:id/donations" element={<SponsorDonations />} />
       <Route path="/choose-role" element={<RoleSelection />} />
       <Route path="/sponsor-a-child" element={<SponsorChildLanding />} />
+      <Route path="/sponsor/signup" element={<Signup />} />
+      <Route path="/verify-otp" element={<VerifyOtp />} />
       {/* Add more routes as needed */}
     </Routes>
   );
