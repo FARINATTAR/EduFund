@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../src/ChooseRole.css'; // Ensure this path is correct based on your project structure
 import Navbar from '../Components/Navbar';
 import { useNavigate } from 'react-router-dom';
-
+import SponsorChildLanding from '../pages/SponsorLanding';
 const ChooseRole = () => {
   const navigate = useNavigate();
   const [stage] = useState(0);
@@ -180,12 +180,14 @@ const ChooseRole = () => {
   className="role-cta"
   onClick={(e) => {
     e.stopPropagation(); // prevent triggering the card click again
-    if (role === 'volunteer') {
-      navigate('/volunteer');
-    } else {
-      handleCardClick(role); // fallback to existing logic
+    switch (role) {
+      case 'child-sponsor':
+        navigate('/sponsor-a-child'); // 👈 Navigates to sponsor landing page
+        break;
+        handleCardClick(role);
     }
   }}
+
 >
   {cta}
 </button>

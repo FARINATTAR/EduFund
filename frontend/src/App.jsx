@@ -1,5 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Donate from './pages/Donate';
 import ChildrenList from './pages/ChildrenList';
 import RegisterSponsor from './pages/RegisterSponsor';
