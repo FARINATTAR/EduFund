@@ -33,6 +33,19 @@ const SponsorChildLanding = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white overflow-x-hidden">
       {/* Section 1: Fullscreen Emotional Story */}
       <section className="h-screen relative flex items-center justify-center">
+        <div className="absolute top-6 right-6 flex gap-4 z-20">
+  <Link to="/sponsor/signup">
+    <button className="bg-white text-orange-600 font-bold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg">
+      Sign Up
+    </button>
+  </Link>
+  <Link to="/sponsor/login">
+    <button className="bg-orange-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-orange-700 transition-all duration-300 shadow-lg">
+      Login
+    </button>
+  </Link>
+</div>
+
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{

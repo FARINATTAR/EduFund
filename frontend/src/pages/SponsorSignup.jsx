@@ -1,395 +1,381 @@
-// import React, { useState } from 'react';
-// import { Link, useNavigate, useLocation } from 'react-router-dom';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import { Eye, EyeOff, UserPlus, Mail, Lock, Phone, User, MapPin, Calendar } from 'lucide-react';
-// import { useAuth } from '../context/AuthContext.jsx';
+// import React, { useState } from "react";
+// import {
+//   UserPlus,
+//   Mail,
+//   Lock,
+//   Phone,
+//   MapPin,
+//   Calendar,
+//   Users,
+//   Eye,
+//   EyeOff,
+//   CheckCircle,
+//   XCircle,
+//   X
+// } from "lucide-react";
 
-// function Signup() {
-//     const [signupInfo, setSignupInfo] = useState({
-//         name: '',
-//         email: '',
-//         password: '',
-//         confirmPassword: '',
-//         phone: '',
-//         gender: '',
-//         dateOfBirth: '',
-//         street: '',
-//         area: '',
-//         pincode: ''
-//     });
-//     const [isLoading, setIsLoading] = useState(false);
-//     const [showPassword, setShowPassword] = useState(false);
-//     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-//     const { login } = useAuth();
-//     const navigate = useNavigate();
-//     const location = useLocation();
-
-//     const redirectPath = location.state?.from || new URLSearchParams(location.search).get('redirect') || '/';
-
-//     const API_URL = import.meta.env.VITE_API_URL || "https://weexistproject.onrender.com";
-
-//     const togglePasswordVisibility = (field) => {
-//         if (field === 'password') {
-//             setShowPassword(!showPassword);
-//         } else {
-//             setShowConfirmPassword(!showConfirmPassword);
-//         }
-//     };
-
-//     const handleChange = (e) => {
-//         const { name, value } = e.target;
-//         setSignupInfo((prev) => ({ ...prev, [name]: value }));
-//     };
-
-// const handleSignup = async (e) => {
-//     e.preventDefault();
-
-//     const {
-//         name, email, password, confirmPassword, phone,
-//         gender, dateOfBirth, street, area, pincode
-//     } = signupInfo;
-
-//     // 🔒 Field validation
-//     if (!name || !email || !password || !confirmPassword ||
-//         !phone || !gender || !dateOfBirth || !street || !area || !pincode) {
-//         return toast.error('All fields are required.', { position: 'top-right', autoClose: 3000 });
-//     }
-
-//     if (password !== confirmPassword) {
-//         return toast.error('Passwords do not match.', { position: 'top-right', autoClose: 3000 });
-//     }
-
-//     setIsLoading(true);
-//     try {
-//         const response = await fetch(`${API_URL}/auth/register`, {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({
-//                 name,
-//                 email,
-//                 password,
-//                 phone,
-//                 gender,
-//                 dateOfBirth,
-//                 address: {
-//                     street,
-//                     area,
-//                     pincode
-//                 },
-//                 role: "sponsor"  // use "sponsor" here since this is sponsor signup
-//             }),
-//         });
-
-//         const result = await response.json();
-//         console.log("Signup response:", result);
-
-//         if (result.success) {
-//             toast.success(result.message || 'Signup successful!', {
-//                 position: 'top-right',
-//                 autoClose: 2000
-//             });
-
-//             setTimeout(() => {
-//                 navigate(`/login?redirect=${encodeURIComponent(redirectPath)}`, {
-//                     state: { from: redirectPath }
-//                 });
-//             }, 1000);
-//         } else {
-//             toast.error(result.error?.details?.[0]?.message || result.message, {
-//                 position: 'top-right',
-//                 autoClose: 3000
-//             });
-//         }
-//     } catch (err) {
-//         toast.error(err.message || 'Something went wrong.', {
-//             position: 'top-right',
-//             autoClose: 3000
-//         });
-//     } finally {
-//         setIsLoading(false);
-//     }
+// const Toast = ({ message, type, onClose }) => {
+//   return (
+//     <div className={`fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg backdrop-blur-xl border animate-slide-down ${
+//       type === 'success' 
+//         ? 'bg-emerald-50/90 border-emerald-200 text-emerald-800' 
+//         : 'bg-red-50/90 border-red-200 text-red-800'
+//     }`}>
+//       <div className="flex items-center gap-3">
+//         {type === 'success' ? (
+//           <CheckCircle className="w-5 h-5 text-emerald-600" />
+//         ) : (
+//           <XCircle className="w-5 h-5 text-red-600" />
+//         )}
+//         <span className="font-medium">{message}</span>
+//         <button
+//           onClick={onClose}
+//           className="ml-2 text-gray-500 hover:text-gray-700 transition-colors"
+//         >
+//           <X className="w-4 h-4" />
+//         </button>
+//       </div>
+//     </div>
+//   );
 // };
 
+// const SponsorSignup = () => {
+//   const [formData, setFormData] = useState({
+//     name: "",
+//     email: "",
+//     password: "",
+//     phone: "",
+//     gender: "",
+//     dateOfBirth: "",
+//     street: "",
+//     area: "",
+//     pincode: "",
+//     role: "sponsor",
+//   });
 
-//     return (
-//         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-sky-50 to-emerald-50 relative overflow-hidden">
-//             {/* Decorative Background */}
-//             <div className="absolute inset-0 opacity-5 z-0">
-//                 <div className="absolute top-16 left-16 w-24 h-24 bg-amber-300 rounded-full" />
-//                 <div className="absolute bottom-20 right-12 w-28 h-28 bg-sky-300 rounded-full" />
-//                 <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-emerald-300 rounded-full" />
-//                 <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-amber-200 rounded-full" />
-//                 <div className="absolute bottom-1/3 left-1/3 w-12 h-12 bg-sky-200 rounded-full" />
-//             </div>
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [toast, setToast] = useState(null);
 
-//             <div className="relative z-10 max-w-2xl mx-auto px-6 py-10">
-//                 {/* Header */}
-//                 <div className="text-center mb-8 animate-fade-in">
-//                     <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-sky-400 to-emerald-400 rounded-full mb-6 shadow-lg">
-//                         <UserPlus className="w-10 h-10 text-white" />
-//                     </div>
-//                     <h1 className="text-4xl font-bold text-gray-800 mb-2">Create Account</h1>
-//                     <p className="text-gray-600 font-serif italic">
-//                         "Join us in making a difference together."
-//                     </p>
-//                 </div>
+//   const showToast = (message, type) => {
+//     setToast({ message, type });
+//     setTimeout(() => setToast(null), 5000); // Auto hide after 5 seconds
+//   };
 
-//                 {/* Signup Form */}
-//                 <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl p-8 border border-white/50 animate-slide-up">
-//                     <form onSubmit={handleSignup} className="space-y-6">
-//                         {/* Personal Information Section */}
-//                         <div className="space-y-4">
-//                             <h3 className="text-lg font-semibold text-gray-700 border-b border-gray-200 pb-2">Personal Information</h3>
-                            
-//                             {/* Full Name */}
-//                             <div>
-//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-//                                 <div className="relative">
-//                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                         <User className="h-5 w-5 text-gray-400" />
-//                                     </div>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type="text"
-//                                         name="name"
-//                                         placeholder="Enter your full name"
-//                                         value={signupInfo.name}
-//                                         className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                 </div>
-//                             </div>
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
 
-//                             {/* Email */}
-//                             <div>
-//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-//                                 <div className="relative">
-//                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                         <Mail className="h-5 w-5 text-gray-400" />
-//                                     </div>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type="email"
-//                                         name="email"
-//                                         placeholder="Enter your email"
-//                                         value={signupInfo.email}
-//                                         className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                 </div>
-//                             </div>
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     console.log("[SponsorSignup] Submitting form with data:", formData);
+    
+//     try {
+//       const response = await fetch("http://localhost:5000/api/sponsors/signup", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(formData),
+//       });
 
-//                             {/* Phone */}
-//                             <div>
-//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-//                                 <div className="relative">
-//                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                         <Phone className="h-5 w-5 text-gray-400" />
-//                                     </div>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type="text"
-//                                         name="phone"
-//                                         placeholder="Enter your phone number"
-//                                         value={signupInfo.phone}
-//                                         className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                 </div>
-//                             </div>
+//       const data = await response.json();
 
-//                             {/* Gender and DOB Row */}
-//                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                                 <div>
-//                                     <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
-//                                     <select
-//                                         name="gender"
-//                                         onChange={handleChange}
-//                                         value={signupInfo.gender}
-//                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900"
-//                                     >
-//                                         <option value="">Select Gender</option>
-//                                         <option value="male">Male</option>
-//                                         <option value="female">Female</option>
-//                                         <option value="other">Other</option>
-//                                     </select>
-//                                 </div>
+//       if (response.ok) {
+//         showToast(`Signup successful! Your ID: ${data.sponsorId}`, 'success');
+        
+//         // Reset form after successful signup
+//         setFormData({
+//           name: "",
+//           email: "",
+//           password: "",
+//           phone: "",
+//           gender: "",
+//           dateOfBirth: "",
+//           street: "",
+//           area: "",
+//           pincode: "",
+//           role: "sponsor",
+//         });
+//       } else {
+//         throw new Error(data.message || 'Signup failed');
+//       }
+//     } catch (error) {
+//       console.error("[SponsorSignup] Signup failed:", error.message);
+//       const errorMessage = error.message || "Signup failed. Please try again.";
+//       showToast(errorMessage, 'error');
+//     }
+//   };
 
-//                                 <div>
-//                                     <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
-//                                     <div className="relative">
-//                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                             <Calendar className="h-5 w-5 text-gray-400" />
-//                                         </div>
-//                                         <input
-//                                             onChange={handleChange}
-//                                             type="date"
-//                                             name="dateOfBirth"
-//                                             value={signupInfo.dateOfBirth}
-//                                             className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900"
-//                                         />
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-sky-50 to-emerald-50 relative overflow-hidden flex items-center justify-center py-10">
+//       {/* Toast Notification */}
+//       {toast && (
+//         <Toast
+//           message={toast.message}
+//           type={toast.type}
+//           onClose={() => setToast(null)}
+//         />
+//       )}
 
-//                         {/* Security Section */}
-//                         <div className="space-y-4">
-//                             <h3 className="text-lg font-semibold text-gray-700 border-b border-gray-200 pb-2">Security</h3>
-                            
-//                             {/* Password */}
-//                             <div>
-//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-//                                 <div className="relative">
-//                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                         <Lock className="h-5 w-5 text-gray-400" />
-//                                     </div>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type={showPassword ? "text" : "password"}
-//                                         name="password"
-//                                         placeholder="Create a password"
-//                                         value={signupInfo.password}
-//                                         className="pl-10 pr-12 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                     <button
-//                                         type="button"
-//                                         onClick={() => togglePasswordVisibility('password')}
-//                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
-//                                     >
-//                                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-//                                     </button>
-//                                 </div>
-//                             </div>
+//       {/* Decorative Background */}
+//       <div className="absolute inset-0 opacity-5 z-0">
+//         <div className="absolute top-16 left-16 w-24 h-24 bg-amber-300 rounded-full" />
+//         <div className="absolute bottom-20 right-12 w-28 h-28 bg-sky-300 rounded-full" />
+//         <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-emerald-300 rounded-full" />
+//         <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-amber-200 rounded-full" />
+//         <div className="absolute bottom-1/3 left-1/3 w-12 h-12 bg-sky-200 rounded-full" />
+//       </div>
 
-//                             {/* Confirm Password */}
-//                             <div>
-//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-//                                 <div className="relative">
-//                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                         <Lock className="h-5 w-5 text-gray-400" />
-//                                     </div>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type={showConfirmPassword ? "text" : "password"}
-//                                         name="confirmPassword"
-//                                         placeholder="Confirm your password"
-//                                         value={signupInfo.confirmPassword}
-//                                         className="pl-10 pr-12 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                     <button
-//                                         type="button"
-//                                         onClick={() => togglePasswordVisibility('confirm')}
-//                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
-//                                     >
-//                                         {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-//                                     </button>
-//                                 </div>
-//                             </div>
-//                         </div>
-
-//                         {/* Address Section */}
-//                         <div className="space-y-4">
-//                             <h3 className="text-lg font-semibold text-gray-700 border-b border-gray-200 pb-2">Address Information</h3>
-                            
-//                             {/* Street */}
-//                             <div>
-//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Street Address</label>
-//                                 <div className="relative">
-//                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-//                                         <MapPin className="h-5 w-5 text-gray-400" />
-//                                     </div>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type="text"
-//                                         name="street"
-//                                         placeholder="Enter street address"
-//                                         value={signupInfo.street}
-//                                         className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                 </div>
-//                             </div>
-
-//                             {/* Area and Pincode Row */}
-//                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                                 <div>
-//                                     <label className="block text-sm font-medium text-gray-700 mb-2">Area</label>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type="text"
-//                                         name="area"
-//                                         placeholder="Enter area"
-//                                         value={signupInfo.area}
-//                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                 </div>
-
-//                                 <div>
-//                                     <label className="block text-sm font-medium text-gray-700 mb-2">Pincode</label>
-//                                     <input
-//                                         onChange={handleChange}
-//                                         type="text"
-//                                         name="pincode"
-//                                         placeholder="Enter pincode"
-//                                         value={signupInfo.pincode}
-//                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-sky-400 focus:border-transparent transition bg-white text-gray-900 placeholder-gray-500"
-//                                     />
-//                                 </div>
-//                             </div>
-//                         </div>
-
-//                         {/* Submit Button */}
-//                         <button
-//                             type="submit"
-//                             disabled={isLoading}
-//                             className={`w-full bg-gradient-to-r from-sky-500 to-emerald-500 text-white px-6 py-4 rounded-xl shadow-lg hover:from-sky-600 hover:to-emerald-600 transition duration-300 font-semibold text-lg
-//                             ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-//                         >
-//                             {isLoading ? 'Creating Account...' : 'Create Account'}
-//                         </button>
-
-//                         {/* Login Link */}
-//                         <div className="text-center">
-//                             <p className="text-gray-600">
-//                                 Already have an account?{' '}
-//                                 <Link to="/sponsor/login" className="text-sky-600 hover:text-sky-800 font-semibold transition">
-//                                     Sign In
-//                                 </Link>
-//                             </p>
-//                         </div>
-//                     </form>
-//                 </div>
-//             </div>
-
-//             <ToastContainer />
-
-//             {/* Animations */}
-//             <style >{`
-//                 @keyframes fade-in {
-//                     from { opacity: 0; transform: translateY(20px); }
-//                     to { opacity: 1; transform: translateY(0); }
-//                 }
-
-//                 @keyframes slide-up {
-//                     from { opacity: 0; transform: translateY(30px); }
-//                     to { opacity: 1; transform: translateY(0); }
-//                 }
-
-//                 .animate-fade-in {
-//                     animation: fade-in 0.8s ease-out;
-//                 }
-
-//                 .animate-slide-up {
-//                     animation: slide-up 0.6s ease-out;
-//                 }
-//             `}</style>
+//       {/* Signup Form */}
+//       <div className="relative z-10 w-full max-w-xl bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 animate-slide-up">
+//         <div className="text-center mb-6">
+//           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-400 to-sky-400 rounded-full shadow-lg mb-4">
+//             <UserPlus className="w-10 h-10 text-white" />
+//           </div>
+//           <h2 className="text-3xl font-bold text-gray-800 mb-1">Sponsor Signup</h2>
+//           <p className="text-gray-600 font-serif italic">"Together, let's support a child's future."</p>
 //         </div>
-//     );
-// }
 
-// export default Signup;
+//         <div className="space-y-4">
+//           {/* Name */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <Users className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="text"
+//               name="name"
+//               value={formData.name}
+//               onChange={handleChange}
+//               placeholder="Name"
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Email */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <Mail className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="email"
+//               name="email"
+//               value={formData.email}
+//               onChange={handleChange}
+//               placeholder="Email"
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Password with toggle */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <Lock className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type={showPassword ? "text" : "password"}
+//               name="password"
+//               value={formData.password}
+//               onChange={handleChange}
+//               placeholder="Password"
+//               className="pl-10 pr-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//             <div
+//               className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+//               onClick={() => setShowPassword(!showPassword)}
+//             >
+//               {showPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
+//             </div>
+//           </div>
+
+//           {/* Phone */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <Phone className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="text"
+//               name="phone"
+//               value={formData.phone}
+//               onChange={handleChange}
+//               placeholder="Phone"
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Street */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <MapPin className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="text"
+//               name="street"
+//               value={formData.street}
+//               onChange={handleChange}
+//               placeholder="Street"
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Area */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <MapPin className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="text"
+//               name="area"
+//               value={formData.area}
+//               onChange={handleChange}
+//               placeholder="Area"
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Pincode */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <MapPin className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="text"
+//               name="pincode"
+//               value={formData.pincode}
+//               onChange={handleChange}
+//               placeholder="Pincode"
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Gender Select */}
+//           <div>
+//             <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+//             <select
+//               name="gender"
+//               value={formData.gender}
+//               onChange={handleChange}
+//               className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             >
+//               <option value="">Select Gender</option>
+//               <option value="Male">Male</option>
+//               <option value="Female">Female</option>
+//             </select>
+//           </div>
+
+//           {/* DOB */}
+//           <div className="relative">
+//             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//               <Calendar className="h-5 w-5 text-gray-400" />
+//             </div>
+//             <input
+//               type="date"
+//               name="dateOfBirth"
+//               value={formData.dateOfBirth}
+//               onChange={handleChange}
+//               className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+//               required
+//             />
+//           </div>
+
+//           {/* Submit Button */}
+//           <button
+//             onClick={handleSubmit}
+//             className="w-full bg-gradient-to-r from-amber-500 to-sky-500 text-white px-6 py-4 rounded-xl shadow-lg hover:from-amber-600 hover:to-sky-600 transition duration-300 font-semibold text-lg"
+//           >
+//             Sign Up
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Animations */}
+//       <style jsx>{`
+//         @keyframes slide-up {
+//           from {
+//             opacity: 0;
+//             transform: translateY(30px);
+//           }
+//           to {
+//             opacity: 1;
+//             transform: translateY(0);
+//           }
+//         }
+
+//         @keyframes slide-down {
+//           from {
+//             opacity: 0;
+//             transform: translateY(-20px);
+//           }
+//           to {
+//             opacity: 1;
+//             transform: translateY(0);
+//           }
+//         }
+
+//         .animate-slide-up {
+//           animation: slide-up 0.6s ease-out;
+//         }
+
+//         .animate-slide-down {
+//           animation: slide-down 0.4s ease-out;
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default SponsorSignup;
 
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom"; // 🧠 import navigate hook at the top
+
+import {
+  UserPlus,
+  Mail,
+  Lock,
+  Phone,
+  MapPin,
+  Calendar,
+  Users,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  XCircle,
+  X
+} from "lucide-react";
+
+const Toast = ({ message, type, onClose }) => {
+  return (
+    <div className={`fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg backdrop-blur-xl border animate-slide-down ${
+      type === 'success' 
+        ? 'bg-emerald-50/90 border-emerald-200 text-emerald-800' 
+        : 'bg-red-50/90 border-red-200 text-red-800'
+    }`}>
+      <div className="flex items-center gap-3">
+        {type === 'success' ? (
+          <CheckCircle className="w-5 h-5 text-emerald-600" />
+        ) : (
+          <XCircle className="w-5 h-5 text-red-600" />
+        )}
+        <span className="font-medium">{message}</span>
+        <button
+          onClick={onClose}
+          className="ml-2 text-gray-500 hover:text-gray-700 transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const SponsorSignup = () => {
   const [formData, setFormData] = useState({
@@ -405,68 +391,326 @@ const SponsorSignup = () => {
     role: "sponsor",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+const navigate = useNavigate(); // 🔁 initialize it before using
+
+  const showToast = (message, type) => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 5000);
+  };
+
   const handleChange = (e) => {
-    // Log each field change
-    console.log("[SponsorSignup] Field changed:", e.target.name, "=", e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Log form data before submit
+    if (e) e.preventDefault();
+    
+    // Prevent double submission
+    if (isLoading) return;
+    
+    setIsLoading(true);
     console.log("[SponsorSignup] Submitting form with data:", formData);
+    
     try {
-      const res = await axios.post("http://localhost:5000/api/sponsors/signup", formData);
-      console.log("[SponsorSignup] Signup API response:", res.data);
-      alert("Signup successful! ID: " + res.data.sponsorId);
+      const response = await fetch("http://localhost:5000/api/sponsors/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log("[SponsorSignup] Response status:", response.status);
+      
+      // Check if response is ok first
+      if (!response.ok) {
+        // Try to get error message from response
+        let errorMessage = 'Signup failed';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (jsonError) {
+          console.error("[SponsorSignup] Error parsing error response:", jsonError);
+          errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      // console.log("[SponsorSignup] Success response:", data);
+
+// showToast(data.message || 'Signup successful!', 'success');
+if (data.success) {
+  showToast(data.message || "Signup successful!", "success");
+  setTimeout(() => navigate("/sponsor/login"), 2000);
+} else {
+  showToast(data.message || "Signup failed!", "error");
+}
+      
+      // Reset form after successful signup
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+        gender: "",
+        dateOfBirth: "",
+        street: "",
+        area: "",
+        pincode: "",
+        role: "sponsor",
+      });
+
     } catch (error) {
-      console.error("[SponsorSignup] Signup failed:", error.response?.data || error.message);
+      console.error("[SponsorSignup] Signup failed:", error);
+      showToast(error.message || "Signup failed. Please try again.", 'error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white shadow rounded space-y-4">
-      <h2 className="text-xl font-semibold text-center text-gray-900">Sponsor Signup</h2>
-
-      {["name", "email", "password", "phone", "street", "area", "pincode"].map((field) => (
-        <input
-          key={field}
-          type={field === "password" ? "password" : "text"}
-          name={field}
-          value={formData[field]}
-          onChange={handleChange}
-          placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-          className="w-full border p-2 rounded text-gray-900 placeholder-gray-500"
-          required
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-sky-50 to-emerald-50 relative overflow-hidden flex items-center justify-center py-10">
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
-      ))}
+      )}
 
-      <select
-        name="gender"
-        value={formData.gender}
-        onChange={handleChange}
-        className="w-full border p-2 rounded text-gray-900"
-        required
-      >
-        <option value="" disabled>Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
+      {/* Decorative Background */}
+      <div className="absolute inset-0 opacity-5 z-0">
+        <div className="absolute top-16 left-16 w-24 h-24 bg-amber-300 rounded-full" />
+        <div className="absolute bottom-20 right-12 w-28 h-28 bg-sky-300 rounded-full" />
+        <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-emerald-300 rounded-full" />
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-amber-200 rounded-full" />
+        <div className="absolute bottom-1/3 left-1/3 w-12 h-12 bg-sky-200 rounded-full" />
+      </div>
 
-      <input
-        type="date"
-        name="dateOfBirth"
-        value={formData.dateOfBirth}
-        onChange={handleChange}
-        className="w-full border p-2 rounded text-gray-900"
-        required
-      />
+      {/* Signup Form */}
+      <div className="relative z-10 w-full max-w-xl bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 animate-slide-up">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-400 to-sky-400 rounded-full shadow-lg mb-4">
+            <UserPlus className="w-10 h-10 text-white" />
+          </div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-1">Sponsor Signup</h2>
+          <p className="text-gray-600 font-serif italic">"Together, let's support a child's future."</p>
+        </div>
 
-      <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-        Sign Up
-      </button>
-    </form>
+        <div className="space-y-4">
+          {/* Name */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Users className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Name"
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Email */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Mail className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Password with toggle */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Lock className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="pl-10 pr-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+            <div
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
+            </div>
+          </div>
+
+          {/* Phone */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Phone className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone"
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Street */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MapPin className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              name="street"
+              value={formData.street}
+              onChange={handleChange}
+              placeholder="Street"
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Area */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MapPin className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              placeholder="Area"
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Pincode */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MapPin className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              name="pincode"
+              value={formData.pincode}
+              onChange={handleChange}
+              placeholder="Pincode"
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Gender Select */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          {/* DOB */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Calendar className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="date"
+              name="dateOfBirth"
+              value={formData.dateOfBirth}
+              onChange={handleChange}
+              className="pl-10 w-full px-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-900 focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className={`w-full px-6 py-4 rounded-xl shadow-lg font-semibold text-lg transition duration-300 ${
+              isLoading 
+                ? 'bg-gray-400 cursor-not-allowed text-gray-200' 
+                : 'bg-gradient-to-r from-amber-500 to-sky-500 text-white hover:from-amber-600 hover:to-sky-600'
+            }`}
+          >
+            {isLoading ? 'Signing Up...' : 'Sign Up'}
+          </button>
+        </div>
+      </div>
+
+      {/* Animations */}
+      <style jsx>{`
+        @keyframes slide-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-slide-up {
+          animation: slide-up 0.6s ease-out;
+        }
+
+        .animate-slide-down {
+          animation: slide-down 0.4s ease-out;
+        }
+      `}</style>
+    </div>
   );
-}
+};
 
 export default SponsorSignup;
