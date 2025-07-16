@@ -21,9 +21,11 @@ const PORT = process.env.PORT || 5000;
 //   credentials: true
 // }));
 
+import cors from 'cors';
+
 const allowedOrigins = [
   'https://edu-fund-iiwe.vercel.app',
-  'https://edu-fund-iiwe-git-main-farin-attars-projects.vercel.app', // ← branch preview domain
+  'https://edu-fund-iiwe-git-main-farin-attars-projects.vercel.app',
   'http://localhost:5173'
 ];
 
@@ -32,12 +34,14 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log('❌ Blocked by CORS:', origin); // Helpful for debugging
       callback(new Error('Not allowed by CORS'));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // ✅ optional: for form data
