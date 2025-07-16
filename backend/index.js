@@ -21,8 +21,6 @@ const PORT = process.env.PORT || 5000;
 //   credentials: true
 // }));
 
-import cors from 'cors';
-
 const allowedOrigins = [
   'https://edu-fund-iiwe.vercel.app',
   'https://edu-fund-iiwe-git-main-farin-attars-projects.vercel.app',
