@@ -12,13 +12,32 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// app.use(cors({
+//   origin: [
+//     'https://edu-fund-iiwe.vercel.app',  // ✅ your live frontend
+//     'http://localhost:5173'              // ✅ your local frontend
+//   ],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
+
+const allowedOrigins = [
+  'https://edu-fund-iiwe.vercel.app',
+  'https://edu-fund-iiwe-git-main-farin-attars-projects.vercel.app', // ← branch preview domain
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: '*', // ✅ Temporarily allow all origins to test
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // ✅ optional: for form data
