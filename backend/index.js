@@ -13,13 +13,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: [
-    'https://edu-fund-iiwe.vercel.app',  // ✅ your live frontend
-    'http://localhost:5173'              // ✅ your local frontend
-  ],
+  origin: '*', // ✅ Temporarily allow all origins to test
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // ✅ optional: for form data
