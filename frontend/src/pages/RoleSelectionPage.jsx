@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; // <-- Corrected import statement
-import Navbar from '../Components/Navbar';
-import Footer from '../Components/Footer';
-import ChooseRole from '../Components/RoleSelectionComponent';  
+import Navbar from '../components/Navbar';
+import Footer from '../omponents/Footer';
+import ChooseRole from '../components/RoleSelectionComponent';  
 
 const RoleSelection = () => {
   const [show, setShow] = useState(false);
