@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../src/ChooseRole.css'; // Ensure this path is correct based on your project structure
-import Navbar from '../Components/Navbar';
+import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import SponsorChildLanding from '../pages/SponsorLanding';
 const ChooseRole = () => {
