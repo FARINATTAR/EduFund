@@ -26,7 +26,7 @@ const Donate = () => {
     if (id) {
       try {
         // Make API call to your children route
-        const response = await axios.get(`http://localhost:5000/api/children/${id}`);
+const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/children/${id}`);
         setChildInfo({
           id: id,
           verified: true,
@@ -53,10 +53,10 @@ const Donate = () => {
       
       try {
         // Make API call to your sponsor route
-        const response = await axios.get(`http://localhost:5000/api/sponsors/${id}`);
+const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/sponsors/${id}`);
         
         // Get sponsor donations to calculate total donated and students supported
-        const donationsResponse = await axios.get(`http://localhost:5000/api/sponsors/${id}/donations`);
+const donationsResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/sponsors/${id}/donations`);
         
         // Fix: Ensure amounts are properly converted to numbers before summing
         const totalDonated = donationsResponse.data.donations.reduce((sum, donation) => {
@@ -96,7 +96,7 @@ const Donate = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/donate', {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/donate`, {
         sponsor_id: sponsorId,
         child_id: childId,
         amount: parseFloat(amount) // Ensure amount is sent as number

@@ -24,7 +24,7 @@ const SponsorChildLanding = () => {
     const [children, setChildren] = useState([]);
 
     useEffect(() => {
-    axios.get('http://localhost:5000/api/children')
+axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/children`)
         .then((res) => setChildren(res.data))
         .catch((err) => console.error('Error fetching children:', err));
     }, []);

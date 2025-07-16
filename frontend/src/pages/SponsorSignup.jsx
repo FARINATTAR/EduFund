@@ -79,7 +79,7 @@ const navigate = useNavigate(); // 🔁 initialize it before using
     console.log("[SponsorSignup] Submitting form with data:", formData);
     
     try {
-      const response = await fetch("http://localhost:5000/api/sponsors/signup", {
+const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/sponsors/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -8,24 +8,23 @@ const RegisterSponsor = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await axios.post('http://localhost:5000/api/sponsors', {
-        name,
-        email,
-      });
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/sponsors`, {
+      name,
+      email,
+    });
 
-      setMessage(res.data.message + ` (ID: ${res.data.sponsor_id})`);
+    setMessage(res.data.message + ` (ID: ${res.data.sponsor_id})`);
+    navigate(`/donate?sponsor_id=${res.data.sponsor_id}`);
+  } catch (err) {
+    console.error(err);
+    setMessage('Registration failed');
+  }
+};
 
-      // Optional: redirect to donate page
-      navigate(`/donate?sponsor_id=${res.data.sponsor_id}`);
-    } catch (err) {
-      console.error(err);
-      setMessage('Registration failed');
-    }
-  };
 
   return (
     <div className="p-6 max-w-md mx-auto bg-white shadow rounded">

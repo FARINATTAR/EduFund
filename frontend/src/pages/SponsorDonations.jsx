@@ -10,7 +10,7 @@ const SponsorDonations = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/sponsors/${id}/donations`)
+.get(`${import.meta.env.VITE_API_BASE_URL}/api/sponsors/${id}/donations`)
       .then((res) => {
         setSponsor(res.data.sponsor);
         setDonations(res.data.donations);

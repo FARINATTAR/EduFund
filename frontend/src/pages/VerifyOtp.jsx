@@ -11,7 +11,7 @@ function VerifyOtp() {
     const email = location.state?.email || localStorage.getItem("pendingEmail");
     const redirect = new URLSearchParams(location.search).get('redirect') || '/login';
 
-const API_URL = "http://localhost:5000"; // 👈 Use your local MySQL+Express backend
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
     const handleSubmit = async (e) => {
     e.preventDefault();
