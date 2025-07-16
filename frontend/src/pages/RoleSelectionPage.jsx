@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'; // <-- Corrected import statement
 import Navbar from '../components/Navbar';
-import Footer from '../omponents/Footer';
+import Footer from '../components/Footer';
 import ChooseRole from '../components/RoleSelectionComponent';  
 
 const RoleSelection = () => {
