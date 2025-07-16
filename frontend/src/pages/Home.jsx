@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../Components/Navbar';
+import Navbar from '../components/Navbar';
 import Earth from '../models/Earth';
-import HungerImpactSection from '../Components/WhyWeExist';
-import HowYouCanHelp from '../Components/HowWeHelp';
-import BadgesSection from '../Components/BadgesSection';
-import CTASection from '../Components/CTASection';
-import Footer from '../Components/Footer'
+import HungerImpactSection from '../components/WhyWeExist';
+import HowYouCanHelp from '../components/HowWeHelp';
+import BadgesSection from '../components/BadgesSection';
+import CTASection from '../components/CTASection';
+import Footer from '../components/Footer'
 
 const Home = () => {
   const [show, setShow] = useState(false);
